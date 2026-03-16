@@ -1,0 +1,307 @@
+.skill-detail-page {
+  background: #f5f5f5;
+  min-height: calc(100vh - 56px);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.back-btn {
+  color: #595959;
+}
+
+.back-btn:hover {
+  color: #d4a574;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.header-right {
+  display: flex;
+  gap: 12px;
+}
+
+.debug-btn {
+  border-color: #52c41a;
+  color: #52c41a;
+}
+
+.debug-btn:hover {
+  background: #52c41a;
+  color: #fff;
+  border-color: #52c41a;
+}
+
+.publish-btn {
+  border-color: #d4a574;
+  color: #d4a574;
+}
+
+.publish-btn:hover {
+  background: #d4a574;
+  color: #fff;
+  border-color: #d4a574;
+}
+
+.use-btn {
+  background: #d4a574;
+  border-color: #d4a574;
+}
+
+.use-btn:hover {
+  background: #c49a6c !important;
+  border-color: #c49a6c !important;
+}
+
+.skill-info-section {
+  background: #fff;
+  padding: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.skill-header {
+  display: flex;
+  gap: 16px;
+}
+
+.skill-icon-large {
+  font-size: 48px;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.skill-title-section {
+  flex: 1;
+}
+
+.skill-title-section h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.skill-id {
+  font-size: 14px;
+  color: #8c8c8c;
+  font-weight: normal;
+}
+
+.skill-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.skill-tag {
+  font-size: 12px;
+}
+
+.skill-desc {
+  margin: 0 0 12px;
+  color: #595959;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.skill-meta {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.detail-content {
+  display: flex;
+  height: calc(100vh - 280px);
+  gap: 16px;
+  padding: 16px;
+}
+
+.file-tree-section {
+  width: 220px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.skill-file-tree {
+  background: transparent;
+}
+
+.skill-file-tree .ant-tree-node-content-wrapper {
+  padding: 4px 8px;
+}
+
+.skill-file-tree .ant-tree-node-content-wrapper:hover {
+  background: rgba(212, 165, 116, 0.1);
+}
+
+.skill-file-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background: rgba(212, 165, 116, 0.15);
+  color: #d4a574;
+}
+
+.file-content-section {
+  flex: 1;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-viewer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-viewer-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #262626;
+}
+
+.file-viewer-content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+
+.file-viewer-content pre {
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #262626;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.ai-creation-section {
+  width: 320px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-chat-preview {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-message {
+  display: flex;
+}
+
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-message.assistant {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 90%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.chat-message.user .message-bubble {
+  background: #d4a574;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message.assistant .message-bubble {
+  background: #f5f5f5;
+  color: #262626;
+  border-bottom-left-radius: 4px;
+}
+
+.file-creation-list {
+  margin: 8px 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  color: #595959;
+  font-size: 12px;
+}
+
+.chat-input-preview {
+  margin-top: auto;
+  padding: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.input-placeholder {
+  color: #bfbfbf;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.input-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.send-btn {
+  background: #d4a574;
+  border-color: #d4a574;
+}
+
+.send-btn:hover {
+  background: #c49a6c !important;
+  border-color: #c49a6c !important;
+}

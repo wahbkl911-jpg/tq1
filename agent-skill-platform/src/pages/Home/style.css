@@ -1,0 +1,262 @@
+.home-page {
+  padding: 20px 24px;
+  background: #f5f5f5;
+  min-height: calc(100vh - 57px);
+}
+
+/* 头部样式 */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+}
+
+.date-picker {
+  width: 240px;
+}
+
+/* 统计卡片样式 */
+.stats-row {
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card .ant-card-body {
+  padding: 20px;
+}
+
+.today-card {
+  background: linear-gradient(135deg, #e8f4f8 0%, #f0f7ff 100%);
+}
+
+.period-card {
+  background: linear-gradient(135deg, #f0f9f0 0%, #f6fdf6 100%);
+}
+
+.pending-card {
+  background: linear-gradient(135deg, #fff7e6 0%, #fff9f0 100%);
+}
+
+.stat-header {
+  margin-bottom: 16px;
+}
+
+.stat-header.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #595959;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: #262626;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.stat-value.warning {
+  color: #fa8c16;
+}
+
+.stat-value.error {
+  color: #f5222d;
+}
+
+.stat-sub-label {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.view-all-btn {
+  font-size: 12px;
+  padding: 0;
+  height: auto;
+  color: #d4a574;
+}
+
+.view-all-btn:hover {
+  color: #c49a6c;
+}
+
+/* 图表区域样式 */
+.charts-row {
+  margin-bottom: 16px;
+}
+
+.chart-card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.chart-card .ant-card-head {
+  border-bottom: none;
+  padding: 16px 20px 0;
+  min-height: 48px;
+}
+
+.chart-card .ant-card-head-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.chart-card .ant-card-body {
+  padding: 16px 20px 20px;
+}
+
+.chart-container {
+  height: 220px;
+}
+
+.pie-chart-container {
+  display: flex;
+  align-items: center;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #595959;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-item .dot.blue {
+  background: #5470c6;
+}
+
+.legend-item .dot.green {
+  background: #91cc75;
+}
+
+/* 饼图图例样式 */
+.pie-legend {
+  flex: 1;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.pie-legend-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.pie-legend-item .name {
+  color: #595959;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pie-legend-item .value {
+  color: #8c8c8c;
+  flex-shrink: 0;
+}
+
+/* 猜你想问样式 */
+.questions-card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.questions-card .ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 20px;
+}
+
+.questions-card .ant-card-head-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.questions-card .ant-card-body {
+  padding: 20px;
+}
+
+.question-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fafafa;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.question-item:hover {
+  background: #f0f0f0;
+}
+
+.question-icon {
+  font-size: 16px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.question-text {
+  flex: 1;
+  font-size: 13px;
+  color: #595959;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.question-arrow {
+  font-size: 12px;
+  color: #bfbfbf;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.question-item:hover .question-arrow {
+  color: #d4a574;
+}
