@@ -3,8 +3,5 @@
   "rootDirectory": "agent-skill-platform",
   "buildCommand": "vite build",
   "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "env": {
-    "NODE_VERSION": "18"
-  }
+  "installCommand": "npm install"
 }
