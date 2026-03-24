@@ -905,7 +905,7 @@ const AgentList = () => {
                       <div className="skill-select-desc">{skill.description.slice(0, 50)}...</div>
                       <div className="skill-select-tags">
                         {skill.tags.slice(0, 3).map((tag) => (
-                          <Tag key={tag} size="small" className="skill-tag">
+                          <Tag key={tag} className="skill-tag">
                             {tag}
                           </Tag>
                         ))}

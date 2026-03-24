@@ -486,7 +486,7 @@ const ReportHome = () => {
                   <div className="data-source-icon">{source.icon}</div>
                   <h4 className="data-source-name">{source.name}</h4>
                   <p className="data-source-desc">{source.description}</p>
-                  <Tag size="small">{source.category}</Tag>
+                  <Tag>{source.category}</Tag>
                 </Card>
               ))}
             </div>

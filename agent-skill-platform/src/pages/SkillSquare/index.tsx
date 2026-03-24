@@ -148,7 +148,7 @@ const SkillSquare = () => {
           <h4 className="skill-name">{skill.displayName}</h4>
           <div className="skill-tags">
             {skill.tags.map((tag) => (
-              <Tag key={tag} size="small" className="skill-tag">
+              <Tag key={tag} className="skill-tag">
                 {tag}
               </Tag>
             ))}
