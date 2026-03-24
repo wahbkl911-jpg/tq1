@@ -27,6 +27,46 @@ const { TabPane } = Tabs;
 const { DirectoryTree } = Tree;
 const { TextArea } = Input;
 
+// 简单的 Markdown 解析函数
+const parseMarkdown = (text: string): string => {
+  if (!text) return '';
+  
+  let html = text
+    // 转义 HTML 特殊字符
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // 处理标题
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    // 处理粗体
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // 处理列表项（• 符号）
+    .replace(/^• (.*$)/gim, '<li>$1</li>')
+    // 处理数字列表
+    .replace(/^\d+\.\s+(.*$)/gim, '<li>$1</li>')
+    // 处理表格
+    .replace(/\|(.+)\|/g, (match, content) => {
+      const cells = content.split('|').map((cell: string) => cell.trim());
+      if (cells.every((cell: string) => cell === '' || cell.match(/^-+$/))) {
+        return ''; // 跳过表格分隔行
+      }
+      return '<tr>' + cells.map((cell: string) => `<td>${cell}</td>`).join('') + '</tr>';
+    })
+    // 处理换行
+    .replace(/\n/g, '<br/>');
+  
+  // 包装表格
+  if (html.includes('<tr>')) {
+    html = html.replace(/(<tr>.*?<\/tr>)+/gs, '<table>$&</table>');
+  }
+  
+  // 包装列表
+  html = html.replace(/(<li>.*?<\/li>)+/gs, '<ul>$&</ul>');
+  
+  return html;
+};
+
 const AgentList = () => {
   const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -38,6 +78,9 @@ const AgentList = () => {
   const [activeTab, setActiveTab] = useState('select');
   const [selectedKnowledgeFiles, setSelectedKnowledgeFiles] = useState<string[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
+  
+  // 当前会话消息状态（用于触发重新渲染）
+  const [sessionMessages, setSessionMessages] = useState<ChatMessage[]>([]);
   
   // 创建Agent弹窗相关状态
   const [createAgentModalVisible, setCreateAgentModalVisible] = useState(false);
@@ -72,19 +115,85 @@ const AgentList = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleAgentSelect = (agent: Agent) => {
+  // 流式渲染消息
+  const streamMessages = async (messages: ChatMessage[]) => {
+    // 清空消息
+    setSessionMessages([]);
+
+    for (const message of messages) {
+      // 逐字显示 AI 消息
+      if (message.role === 'assistant') {
+        const chars = message.content.split('');
+        let displayedContent = '';
+
+        for (let i = 0; i < chars.length; i++) {
+          displayedContent += chars[i];
+
+          setSessionMessages(prev => {
+            const existingIndex = prev.findIndex(m => m.id === message.id);
+            if (existingIndex >= 0) {
+              // 更新已有消息
+              const updated = [...prev];
+              updated[existingIndex] = { ...prev[existingIndex], content: displayedContent };
+              return updated;
+            } else {
+              // 添加新消息
+              return [...prev, { ...message, content: displayedContent }];
+            }
+          });
+
+          // 每 15ms 显示一个字符
+          await new Promise(resolve => setTimeout(resolve, 15));
+        }
+      } else {
+        // 用户消息直接显示
+        setSessionMessages(prev => [...prev, message]);
+      }
+
+      // 消息之间间隔 200ms
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
+  };
+
+  const handleAgentSelect = async (agent: Agent) => {
     setSelectedAgentId(agent.id);
     setCurrentAgent(agent);
+
+    // 查找该 Agent 的预设对话
+    const presetSession = mockChatSessions.find(s => s.agentId === agent.id);
+    if (presetSession && currentSession) {
+      // 流式渲染预设对话
+      await streamMessages(presetSession.messages);
+    }
   };
 
   const handleSend = async () => {
     if (!inputValue.trim() || !currentAgent) return;
 
+    const userContent = inputValue.trim();
     setInputValue('');
     setLoading(true);
 
+    // 添加用户消息
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      agentId: currentAgent.id,
+      role: 'user',
+      content: userContent,
+      timestamp: new Date().toISOString(),
+    };
+    setSessionMessages(prev => [...prev, userMessage]);
+
     // 模拟AI回复
     setTimeout(() => {
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        agentId: currentAgent.id,
+        role: 'assistant',
+        content: `您好！我是 ${currentAgent.name}，${currentAgent.description}`,
+        timestamp: new Date().toISOString(),
+      };
+      setSessionMessages(prev => [...prev, assistantMessage]);
       setLoading(false);
     }, 1000);
   };
@@ -278,6 +387,30 @@ const AgentList = () => {
     setSkillSearchText('');
   };
 
+  // 预设填写内容
+  const presetFormData = {
+    name: '销售数据分析助手',
+    description: '专注于销售数据的深度分析，能够帮助企业洞察销售趋势、识别业绩增长点、分析客户行为模式。支持多维度数据对比、销售预测、业绩报表生成等功能，为销售决策提供数据支撑。',
+    examples: [
+      '请分析本月销售数据，找出增长最快的产品类别',
+      '对比华东区和华南区的销售业绩差异',
+      '预测下季度的销售趋势并给出建议',
+    ],
+  };
+
+  // 打开创建Agent弹窗并填充预设数据
+  const handleOpenCreateModal = () => {
+    setCreateAgentModalVisible(true);
+    // 使用 setTimeout 确保弹窗打开后再填充数据
+    setTimeout(() => {
+      createAgentForm.setFieldsValue({
+        name: presetFormData.name,
+        description: presetFormData.description,
+      });
+      setExampleInputs(presetFormData.examples);
+    }, 0);
+  };
+
   // 处理删除Agent
   const handleDeleteAgent = () => {
     if (!selectedAgent) return;
@@ -333,7 +466,7 @@ const AgentList = () => {
             type="text" 
             icon={<PlusOutlined />} 
             className="create-agent-btn" 
-            onClick={() => setCreateAgentModalVisible(true)}
+            onClick={handleOpenCreateModal}
           />
         </div>
 
@@ -357,7 +490,11 @@ const AgentList = () => {
                 className={`agent-list-item ${selectedAgentId === agent.id ? 'active' : ''}`}
                 onClick={() => handleAgentSelect(agent)}
               >
-                <Avatar size="large" style={{ backgroundColor: '#d4a574', flexShrink: 0 }}>
+                <Avatar 
+                  size="large" 
+                  src={agent.avatar} 
+                  style={{ backgroundColor: '#d4a574', flexShrink: 0 }}
+                >
                   {agent.name.charAt(0)}
                 </Avatar>
                 <div className="agent-item-info">
@@ -380,7 +517,7 @@ const AgentList = () => {
             {/* 聊天头部 */}
             <div className="chat-main-header">
               <div className="chat-header-info">
-                <Avatar size="large" style={{ backgroundColor: '#d4a574' }}>
+                <Avatar size="large" src={selectedAgent.avatar} style={{ backgroundColor: '#d4a574' }}>
                   {selectedAgent.name.charAt(0)}
                 </Avatar>
                 <div className="chat-header-text">
@@ -410,7 +547,7 @@ const AgentList = () => {
 
             {/* 聊天消息区域 */}
             <div className="chat-main-messages">
-              {!currentSession || currentSession.messages.length === 0 ? (
+              {sessionMessages.length === 0 ? (
                 <div className="empty-chat">
                   <Empty
                     description="开始与智能体对话"
@@ -422,38 +559,84 @@ const AgentList = () => {
                   <div className="chat-date-divider">
                     <span>今天</span>
                   </div>
-                  {currentSession.messages.map((message: ChatMessage) => (
-                    <div
-                      key={message.id}
-                      className={`chat-message ${message.role}`}
-                    >
-                      {message.role === 'assistant' ? (
-                        <>
-                          <Avatar size="small" style={{ backgroundColor: '#d4a574', marginRight: 8 }}>
+                  {sessionMessages.map((message: ChatMessage) => {
+                    // 解析图表标记
+                    const chartMatch = message.content.match(/\{\{CHART:(\w+)\|([^|]+)\|([^|]+)\|([^}]+)\}\}/);
+                    const hasChart = !!chartMatch;
+                    const textContent = hasChart 
+                      ? message.content.replace(/\{\{CHART:[^}]+\}\}/, '').trim()
+                      : message.content;
+                    
+                    // 解析图表数据
+                    let chartData = null;
+                    if (chartMatch) {
+                      const [, type, labelsStr, valuesStr, unit] = chartMatch;
+                      chartData = {
+                        type,
+                        labels: labelsStr.split(','),
+                        values: valuesStr.split(',').map(v => parseFloat(v)),
+                        unit
+                      };
+                    }
+                    
+                    return (
+                      <div
+                        key={message.id}
+                        className={`msg-row ${message.role}`}
+                      >
+                        {message.role === 'assistant' && (
+                          <Avatar size="small" src={selectedAgent.avatar} style={{ backgroundColor: '#d4a574' }}>
                             {selectedAgent.name.charAt(0)}
                           </Avatar>
-                          <div className={`message-bubble ${message.role}`}>
-                            <div className="message-content">{message.content}</div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className={`message-bubble ${message.role}`}>
-                            <div className="message-content">{message.content}</div>
-                          </div>
-                          <Avatar size="small" style={{ backgroundColor: '#1890ff', marginLeft: -50 }}>
+                        )}
+                        <div className="msg-bubble">
+                          {hasChart && chartData && (
+                            <div className="chart-card">
+                              <div className="chart-card-header">
+                                <span className="chart-icon">📊</span>
+                                <span className="chart-card-title">业绩趋势图</span>
+                              </div>
+                              <div className="chart-card-body">
+                                <div className="chart-bars">
+                                  {chartData.labels.map((label, idx) => {
+                                    const maxValue = Math.max(...chartData.values);
+                                    const height = (chartData.values[idx] / maxValue) * 150;
+                                    return (
+                                      <div key={label} className="chart-bar-item">
+                                        <div 
+                                          className="chart-bar" 
+                                          style={{ height: `${height}px` }}
+                                        />
+                                        <div className="chart-value">{chartData.values[idx]}</div>
+                                        <div className="chart-label">{label}</div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                                <div className="chart-unit">单位：{chartData.unit}</div>
+                              </div>
+                            </div>
+                          )}
+                          <div className="msg-text" dangerouslySetInnerHTML={{ __html: parseMarkdown(textContent) }} />
+                        </div>
+                        {message.role === 'user' && (
+                          <Avatar 
+                            size="small" 
+                            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face"
+                            style={{ backgroundColor: '#1890ff' }}
+                          >
                             我
                           </Avatar>
-                        </>
-                      )}
-                    </div>
-                  ))}
+                        )}
+                      </div>
+                    );
+                  })}
                   {loading && (
-                    <div className="chat-message assistant loading">
-                      <Avatar size="small" style={{ backgroundColor: '#d4a574', marginRight: 8 }}>
+                    <div className="msg-row assistant">
+                      <Avatar size="small" src={selectedAgent.avatar} style={{ backgroundColor: '#d4a574' }}>
                         {selectedAgent.name.charAt(0)}
                       </Avatar>
-                      <div className="message-bubble assistant">
+                      <div className="msg-bubble">
                         <Spin size="small" />
                       </div>
                     </div>

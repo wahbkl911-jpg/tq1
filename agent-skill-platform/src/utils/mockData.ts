@@ -1,6 +1,41 @@
 import type { Agent, Skill, ChatSession, KnowledgeFolder, DebugSession } from '@/types';
 
 export const mockAgents: Agent[] = [
+  // ==================== 预设智能体 - 通用场景 ====================
+  {
+    id: 'preset-1',
+    name: 'AgentCraft 智能体工匠',
+    description: '智能体创建引导助手，通过对话收集用户需求，自动推荐智能体角色和技能，生成个性化智能体配置（姓名、形象、性格），并匹配合适的技能组合。',
+    status: 'active',
+    createdAt: '2024-03-23',
+    updatedAt: '2024-03-23',
+    creator: '系统预设',
+    usageScope: ['所有用户'],
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
+  },
+  {
+    id: 'preset-2',
+    name: 'DocMind 文档智脑',
+    description: '专业文档分析与需求提取专家，支持上传Word/PDF/Excel文档自动解析，提取关键功能点和需求，生成结构化功能清单，适用于产品需求文档、技术文档等分析场景。',
+    status: 'active',
+    createdAt: '2024-03-23',
+    updatedAt: '2024-03-23',
+    creator: '系统预设',
+    usageScope: ['所有用户'],
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face',
+  },
+  {
+    id: 'preset-3',
+    name: 'MeetGuard 会议管家',
+    description: '智能日程与会议管理助手，支持会议日程自动同步与提醒，会前准备事项推送，会议内容摘要与待办生成，适用于周会、评审会、管理层例会等多种会议类型。',
+    status: 'active',
+    createdAt: '2024-03-23',
+    updatedAt: '2024-03-23',
+    creator: '系统预设',
+    usageScope: ['所有用户'],
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+  },
+  // ==================== 业务智能体 - 石化行业 ====================
   {
     id: '1',
     name: '聚烯烃分析师',
@@ -10,6 +45,7 @@ export const mockAgents: Agent[] = [
     updatedAt: '2024-03-10',
     creator: '陈曦Joy、何嘉荣Jhon',
     usageScope: ['陈曦Joy', '何嘉荣Jhon'],
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face',
   },
   {
     id: '2',
@@ -20,6 +56,7 @@ export const mockAgents: Agent[] = [
     updatedAt: '2024-03-09',
     creator: 'Lin',
     usageScope: ['Lin'],
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
   },
   {
     id: '3',
@@ -30,6 +67,7 @@ export const mockAgents: Agent[] = [
     updatedAt: '2024-03-08',
     creator: '何嘉荣Jhon、Lin',
     usageScope: ['何嘉荣Jhon', 'Lin'],
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
   },
   {
     id: '4',
@@ -40,6 +78,7 @@ export const mockAgents: Agent[] = [
     updatedAt: '2024-03-07',
     creator: 'Lin',
     usageScope: ['Lin'],
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face',
   },
   {
     id: '5',
@@ -50,10 +89,141 @@ export const mockAgents: Agent[] = [
     updatedAt: '2024-03-06',
     creator: '冯碧玉Daisy、小米、黄健聪',
     usageScope: ['小米'],
+    avatar: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face',
   },
 ];
 
 export const mockChatSessions: ChatSession[] = [
+  // ==================== 预设智能体对话示例 ====================
+  // AgentCraft 智能体工匠 - 对话示例
+  {
+    id: 'preset-chat-1',
+    agentId: 'preset-1',
+    title: '创建智能体助手',
+    messages: [
+      {
+        id: '1',
+        agentId: 'preset-1',
+        role: 'assistant',
+        content: '你好呀😊，我是太擎Master，我可以为你创造专属的AI助理和员工~\n不管是想要特定角色(比如"职场助手""学习搭子")，还是需要助理掌握某类技能(比如写PPT、做笔记)，都可以尽管说，我会一次性帮你确认所有需求，高效搞定专属助理！',
+        timestamp: '2024-03-23 09:00:00',
+      },
+      {
+        id: '2',
+        agentId: 'preset-1',
+        role: 'user',
+        content: '我需要能够帮我安排工作日程的助理，包括约开会、跟进度，并且可以随时汇报公司业绩情况',
+        timestamp: '2024-03-23 09:00:30',
+      },
+      {
+        id: '3',
+        agentId: 'preset-1',
+        role: 'assistant',
+        content: '好的，已收到你的请求，现在为你寻找合适的助理。\n\n请选择助理性别：\n• 男生\n• 女生',
+        timestamp: '2024-03-23 09:00:35',
+      },
+      {
+        id: '4',
+        agentId: 'preset-1',
+        role: 'user',
+        content: '女生',
+        timestamp: '2024-03-23 09:00:45',
+      },
+      {
+        id: '5',
+        agentId: 'preset-1',
+        role: 'assistant',
+        content: '好的，已为你自动生成助理信息。\n\n如果需要修改，后续可以和我沟通，也可以在助理信息界面直接修改\n\n📋 助理信息：\n• 助理姓名：敏静\n• 助理形象：👩‍💼 专业女性形象\n• 助理生日：2003年3月5日（今年23岁，处女座）\n• 助理性格：专业严谨 - 说话正式、逻辑清晰、高效直接\n\n接下来给这个助理挑选合适的技能，我需要先问一些问题来明确需求。\n\n这个技能的核心用途是什么？\n○ 基于搜索词分析爆款\n● 基于全网热门文章分析爆款',
+        timestamp: '2024-03-23 09:01:00',
+      },
+    ],
+    createdAt: '2024-03-23',
+    updatedAt: '2024-03-23',
+  },
+  // DocMind 文档智脑 - 对话示例
+  {
+    id: 'preset-chat-2',
+    agentId: 'preset-2',
+    title: '产品需求文档分析',
+    messages: [
+      {
+        id: '1',
+        agentId: 'preset-2',
+        role: 'assistant',
+        content: '你好，我是你的工作助理，每天10点我都会收集最新的AI资讯，总结后发给你，还能够帮你写专业的行业分析报告和开发系统级软件。\n可以向我提出具体需求，比如"开发一个营销系统"',
+        timestamp: '2024-03-23 10:00:00',
+      },
+      {
+        id: '2',
+        agentId: 'preset-2',
+        role: 'user',
+        content: '[上传文件: 进销存管理系统产品需求说明书.doc 1.8MB]',
+        timestamp: '2024-03-23 10:05:00',
+      },
+      {
+        id: '3',
+        agentId: 'preset-2',
+        role: 'assistant',
+        content: '好的，让我研究一下这份产品需求说明书',
+        timestamp: '2024-03-23 10:05:05',
+      },
+      {
+        id: '4',
+        agentId: 'preset-2',
+        role: 'assistant',
+        content: '根据这份文档说明，需要开发的功能场景和对应功能点包括：\n\n| 功能场景 | 对应功能点 |\n|---------|-----------|\n| 基础管理（系统底座） | 1.组织机构、用户、角色、权限管理<br>2.菜单权限、数据权限、操作日志<br>3.基础数据(商品分类、品牌、单位、规格)管理<br>4.多仓库、库位、库区管理<br>5.供应商、客户档案管理 |\n\n文档分析完成！我已提取了所有功能需求，是否需要我生成详细的功能清单或开发计划？',
+        timestamp: '2024-03-23 10:06:30',
+      },
+    ],
+    createdAt: '2024-03-23',
+    updatedAt: '2024-03-23',
+  },
+  // MeetGuard 会议管家 - 对话示例
+  {
+    id: 'preset-chat-3',
+    agentId: 'preset-3',
+    title: '会议提醒与准备',
+    messages: [
+      {
+        id: '1',
+        agentId: 'preset-3',
+        role: 'assistant',
+        content: '📅 日程提醒\n\n管理周例会-线上会议\n时间：1月22日 14:00\n会议内容：1.主管汇报 2.总结 3.1月生日会活动\n地点：银河系',
+        timestamp: '2024-03-23 14:30:00',
+      },
+      {
+        id: '2',
+        agentId: 'preset-3',
+        role: 'assistant',
+        content: '周一下午2点陈开冉组织管理层周例会，请问你能准时参加吗？',
+        timestamp: '2024-03-23 14:30:30',
+      },
+      {
+        id: '3',
+        agentId: 'preset-3',
+        role: 'assistant',
+        content: '本次会议你需要准备好业绩完成情况并汇报',
+        timestamp: '2024-03-23 14:30:35',
+      },
+      {
+        id: '4',
+        agentId: 'preset-3',
+        role: 'user',
+        content: '准时参加',
+        timestamp: '2024-03-23 14:31:00',
+      },
+      {
+        id: '5',
+        agentId: 'preset-3',
+        role: 'assistant',
+        content: '好嘞，周一我回提前通知你，记得按时参加哦～',
+        timestamp: '2024-03-23 14:31:05',
+      },
+    ],
+    createdAt: '2024-03-23',
+    updatedAt: '2024-03-23',
+  },
+  // ==================== 业务智能体对话示例 ====================
   {
     id: '1',
     agentId: '1',

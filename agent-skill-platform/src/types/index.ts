@@ -65,7 +65,7 @@ export interface DebugSession {
 export interface DebugLog {
   id: string;
   timestamp: string;
-  level: 'info' | 'warn' | 'error';
+  level: 'info' | 'warn' | 'error' | 'success';
   message: string;
 }
 

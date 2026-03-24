@@ -1,0 +1,335 @@
+/* AI 报告模块样式 */
+
+/* 报告首页 */
+.report-home {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 顶部标题区 */
+.report-hero {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.report-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #262626 0%, #d4a574 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 快速输入框 */
+.quick-input-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quick-input-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.quick-input-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.quick-input {
+  border: none;
+  resize: none;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.quick-input:focus {
+  box-shadow: none;
+}
+
+.quick-input-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.input-left-actions,
+.input-right-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.action-btn {
+  color: #8c8c8c;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  color: #d4a574;
+  background: rgba(212, 165, 116, 0.1);
+}
+
+.data-source-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  background: #d4a574;
+  color: #fff;
+  border-radius: 9px;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.send-btn {
+  background: #d4a574;
+  border-color: #d4a574;
+  transition: all 0.2s ease;
+}
+
+.send-btn:hover {
+  background: #c49a6c;
+  border-color: #c49a6c;
+}
+
+.send-btn:active {
+  transform: scale(0.95);
+}
+
+/* 内容区域 */
+.report-section {
+  margin-bottom: 48px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+}
+
+/* 报告卡片 */
+.report-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.report-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.report-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.report-cover {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.report-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.report-card:hover .report-cover img {
+  transform: scale(1.05);
+}
+
+.report-type-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(212, 165, 116, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.report-meta {
+  margin-top: 8px;
+}
+
+.report-stats {
+  display: flex;
+  gap: 16px;
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.report-stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 模板网格 */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.template-card {
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.template-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: #d4a574;
+}
+
+.template-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.template-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.template-desc {
+  font-size: 14px;
+  color: #8c8c8c;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.template-category {
+  background: rgba(212, 165, 116, 0.1);
+  color: #d4a574;
+  border-color: #d4a574;
+}
+
+/* 数据源选择 */
+.selected-data-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.no-data-source {
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.data-source-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.data-source-card {
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.data-source-card:hover {
+  border-color: #d4a574;
+}
+
+.data-source-card.selected {
+  border-color: #d4a574;
+  background: rgba(212, 165, 116, 0.05);
+}
+
+.data-source-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.data-source-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.data-source-desc {
+  font-size: 12px;
+  color: #8c8c8c;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* 动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .report-home {
+    padding: 16px;
+  }
+
+  .report-title {
+    font-size: 24px;
+  }
+
+  .report-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .template-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-input-actions {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}

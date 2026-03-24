@@ -30,7 +30,6 @@ import type { Skill } from '@/types';
 import './style.css';
 
 const { TabPane } = Tabs;
-const { Meta } = Card;
 
 const SkillSquare = () => {
   const navigate = useNavigate();

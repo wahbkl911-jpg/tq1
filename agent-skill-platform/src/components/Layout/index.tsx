@@ -13,6 +13,8 @@ import {
   DownOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  FileTextOutlined,
+  CompassOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAppStore } from '@/stores';
@@ -42,9 +44,9 @@ const LayoutComponent = () => {
 
   const sideMenuItems = [
     {
-      key: '/home',
-      icon: <HomeOutlined />,
-      label: '首页',
+      key: '/portal',
+      icon: <CompassOutlined />,
+      label: '门户',
     },
     {
       key: '/agents',
@@ -60,6 +62,16 @@ const LayoutComponent = () => {
       key: '/skills',
       icon: <ThunderboltOutlined />,
       label: '技能',
+    },
+    {
+      key: '/reports',
+      icon: <FileTextOutlined />,
+      label: 'AI报告',
+    },
+    {
+      key: '/home',
+      icon: <HomeOutlined />,
+      label: '后台概览',
     },
   ];
 

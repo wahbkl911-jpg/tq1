@@ -158,63 +158,71 @@ export const chatApi = {
     }),
     
   // SSE 流式发送消息
-  sendMessage: (
+  sendMessage: async (
     data: { sessionId: string; content: string; agentId?: string },
     onMessage: (event: { type: string; data: any }) => void
   ) => {
     const url = `${API_BASE_URL}/chat/messages`;
     const token = getToken();
     
-    const eventSource = new EventSource(
-      `${url}?token=${token}&data=${encodeURIComponent(JSON.stringify(data))}`,
-      { withCredentials: true }
-    );
-    
-    // 由于 EventSource 不支持 POST，我们使用 fetch + ReadableStream
-    return fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(data),
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('发送消息失败');
-      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: '发送消息失败' }));
+      throw new Error(error.error || `HTTP ${response.status}`);
+    }
+    
+    const reader = response.body?.getReader();
+    if (!reader) {
+      throw new Error('无法读取响应');
+    }
+    
+    const decoder = new TextDecoder();
+    let buffer = '';
+    
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
       
-      const reader = response.body?.getReader();
-      if (!reader) {
-        throw new Error('无法读取响应');
-      }
+      buffer += decoder.decode(value, { stream: true });
       
-      const decoder = new TextDecoder();
-      let buffer = '';
+      // 解析 SSE 格式
+      const lines = buffer.split('\n');
+      buffer = '';
       
-      const processStream = async () => {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n\n');
-          buffer = lines.pop() || '';
-          
-          for (const line of lines) {
-            if (line.startsWith('event:')) {
-              const eventType = line.replace('event:', '').trim();
-              const dataLine = lines[lines.indexOf(line) + 1];
-              if (dataLine?.startsWith('data:')) {
-                const eventData = JSON.parse(dataLine.replace('data:', '').trim());
-                onMessage({ type: eventType, data: eventData });
-              }
+      let currentEvent: { type: string; data: any } | null = null;
+      
+      for (const line of lines) {
+        if (line.startsWith('event:')) {
+          currentEvent = { type: line.slice(6).trim(), data: null };
+        } else if (line.startsWith('data:')) {
+          if (currentEvent) {
+            try {
+              currentEvent.data = JSON.parse(line.slice(5).trim());
+            } catch {
+              currentEvent.data = line.slice(5).trim();
             }
           }
+        } else if (line === '' && currentEvent) {
+          onMessage(currentEvent);
+          currentEvent = null;
+        } else {
+          buffer += line + '\n';
         }
-      };
+      }
       
-      return processStream();
-    });
+      // 如果还有未处理的事件，保留到下一次
+      if (currentEvent) {
+        buffer = `event: ${currentEvent.type}\ndata: ${JSON.stringify(currentEvent.data)}\n`;
+      }
+    }
   },
 };
 

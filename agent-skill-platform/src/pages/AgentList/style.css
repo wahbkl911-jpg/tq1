@@ -61,12 +61,29 @@
 
 .agent-list-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   padding: 12px 16px;
   cursor: pointer;
   transition: all 0.3s;
   border-left: 3px solid transparent;
+}
+
+/* Agent 头像样式 - 参考真实照片圆形头像风格 */
+.agent-list-item .ant-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.agent-list-item:hover .ant-avatar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.agent-list-item.active .ant-avatar {
+  border-color: #d4a574;
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
 }
 
 .agent-list-item:hover {
@@ -136,6 +153,12 @@
   gap: 12px;
 }
 
+/* 聊天头部头像样式 */
+.chat-header-info .ant-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .chat-header-text h4 {
   margin: 0;
   font-size: 16px;
@@ -203,57 +226,209 @@
   position: relative;
 }
 
-.chat-message {
+/* 消息行 - 助手 */
+.msg-row.assistant {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.chat-message.user {
-  flex-direction: row;
-  justify-content: flex-end;
+/* 消息区域头像样式 */
+.msg-row .ant-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 }
 
-.chat-main-messages .chat-message.user {
-  margin-left: auto;
-  width: fit-content;
-  max-width: 100%;
-}
-
-.message-bubble {
-  max-width: 70%;
+.msg-row.assistant .msg-bubble {
+  background: #fff;
   padding: 12px 16px;
   border-radius: 12px;
   font-size: 14px;
   line-height: 1.6;
-  word-wrap: break-word;
+  max-width: 70%;
 }
 
-.message-bubble.assistant {
-  background: transparent;
+/* 消息行 - 用户 */
+.msg-row.user {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: flex-end;
+}
+
+.msg-row.user .msg-bubble {
+  background: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 70%;
+}
+
+/* 图表卡片样式 */
+.chart-card {
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.chart-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #faf8f5 0%, #f5f0e8 100%);
+  border-bottom: 1px solid #f0e8dc;
+}
+
+.chart-icon {
+  font-size: 18px;
+}
+
+.chart-card-title {
+  font-size: 15px;
+  font-weight: 600;
   color: #262626;
-  border: none;
-  padding: 0;
-  max-width: 100%;
 }
 
-.chat-message.user .message-bubble {
-  background: transparent !important;
-  color: #000 !important;
-  border: none;
-  padding: 0;
-  max-width: 100%;
+.chart-card-body {
+  padding: 20px 16px;
+  background: #fff;
 }
 
-.message-content {
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 32px;
+  height: 180px;
+  padding: 0 16px;
+}
+
+.chart-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-bar {
+  width: 48px;
+  background: linear-gradient(180deg, #d4a574 0%, #c49a6c 100%);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s;
+}
+
+.chart-bar:hover {
+  background: linear-gradient(180deg, #e0b080 0%, #d4a574 100%);
+}
+
+.chart-value {
+  font-size: 12px;
+  color: #262626;
+  font-weight: 500;
+}
+
+.chart-label {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.chart-unit {
+  text-align: center;
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-top: 12px;
+}
+
+.msg-text {
   white-space: pre-wrap;
 }
 
-.chat-message.loading .message-bubble {
-  min-width: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Markdown 样式 */
+.msg-text h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin: 16px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #d4a574;
+}
+
+.msg-text h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+  margin: 14px 0 10px;
+}
+
+.msg-text table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.msg-text th,
+.msg-text td {
+  padding: 10px 12px;
+  text-align: left;
+  border: 1px solid #e8e8e8;
+}
+
+.msg-text th {
+  background: #fafafa;
+  font-weight: 600;
+  color: #262626;
+}
+
+.msg-text td {
+  color: #595959;
+}
+
+.msg-text tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.msg-text strong {
+  color: #d4a574;
+  font-weight: 600;
+}
+
+.msg-text ul,
+.msg-text ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.msg-text li {
+  margin: 4px 0;
+  color: #595959;
+}
+
+.msg-text p {
+  margin: 8px 0;
+  line-height: 1.8;
+}
+
+.msg-text blockquote {
+  margin: 12px 0;
+  padding: 12px 16px;
+  background: #f6ffed;
+  border-left: 4px solid #52c41a;
+  border-radius: 0 8px 8px 0;
+}
+
+.msg-text hr {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 16px 0;
 }
 
 .chat-main-input {
