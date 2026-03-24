@@ -135,6 +135,7 @@ const LayoutComponent = () => {
           collapsed={collapsed}
           className="side-sider"
           width={200}
+          theme="light"
         >
           <div className="search-box">
             {!collapsed && (
