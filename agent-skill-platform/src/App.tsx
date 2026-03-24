@@ -28,7 +28,7 @@ function App() {
         },
       }}
     >
-      <Router>
+      <Router basename="/tq1">
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* Default redirect to home */}
