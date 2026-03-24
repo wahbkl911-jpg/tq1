@@ -1,6 +1,4 @@
 {
-  "framework": "vite",
-  "rootDirectory": "agent-skill-platform",
   "buildCommand": "vite build",
   "outputDirectory": "dist",
   "installCommand": "npm install"
